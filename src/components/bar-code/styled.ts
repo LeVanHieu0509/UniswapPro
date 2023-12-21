@@ -1,0 +1,28 @@
+import styled from "styled-components";
+
+export const BarcodeScannerWrapper = styled.div`
+  #barcodevideo,
+  #barcodecanvas,
+  #barcodecanvasg {
+    height: 400px;
+  }
+
+  #barcodecanvasg {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+  }
+
+  #result {
+    font-family: verdana;
+    font-size: 1.5em;
+  }
+
+  #barcode {
+    position: relative;
+  }
+
+  #barcodecanvas {
+    display: none;
+  }
+`;
