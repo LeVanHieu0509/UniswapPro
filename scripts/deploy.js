@@ -1,32 +1,47 @@
-// We require the Hardhat Runtime Environment explicitly here. This is optional
-// but useful for running the script in a standalone fashion through `node <script>`.
-//
-// You can also run a script with `npx hardhat run <script>`. If you do that, Hardhat
-// will compile your contracts, add the Hardhat Runtime Environment's members to the
-// global scope, and execute the script.
 const hre = require("hardhat");
+import * as Config from "./config.ts";
+import { hardhatArguments } from "hardhat";
 
 async function main() {
-  const currentTimestampInSeconds = Math.round(Date.now() / 1000);
-  const unlockTime = currentTimestampInSeconds + 60;
+  await Config.initConfig();
+  const network = hardhatArguments.network ? hardhatArguments.network : "dev";
 
-  const lockedAmount = hre.ethers.parseEther("0.001");
+  //BooToken Deploy Section
+  const BooToken = await hre.ethers.getContractFactory("BooToken");
+  const booToken = await BooToken.deploy();
 
-  const lock = await hre.ethers.deployContract("Lock", [unlockTime], {
-    value: lockedAmount,
-  });
+  await booToken.deployed();
 
-  await lock.waitForDeployment();
+  console.log(`booToken ${booToken.address}`);
+  Config.setConfig(network + ".booToken", booToken.address);
 
-  console.log(
-    `Lock with ${ethers.formatEther(
-      lockedAmount
-    )}ETH and unlock timestamp ${unlockTime} deployed to ${lock.target}`
-  );
+  //BooToken Deploy Section
+  const LifeToken = await hre.ethers.getContractFactory("BooToken");
+  const lifeToken = await LifeToken.deploy();
+
+  await lifeToken.deployed();
+
+  console.log(`lifeToken ${lifeToken.address}`);
+  Config.setConfig(network + ".lifeToken", lifeToken.address);
+
+  //BooToken Deploy Section
+  const SwapToken = await hre.ethers.getContractFactory("SwapToken");
+  const swapToken = await SwapToken.deploy();
+
+  await swapToken.deployed();
+
+  console.log(`swapToken ${swapToken.address}`);
+  Config.setConfig(network + ".swapToken", swapToken.address);
+
+  //BooToken Deploy Section
+  const SwapMultihop = await hre.ethers.getContractFactory("SwapMultihop");
+  const swapMultihop = await SwapMultihop.deploy();
+
+  await swapMultihop.deployed();
+  console.log(`swapMultihop ${swapMultihop.address}`);
+  Config.setConfig(network + ".swapMultihop", swapMultihop.address);
 }
 
-// We recommend this pattern to be able to use async/await everywhere
-// and properly handle errors.
 main().catch((error) => {
   console.error(error);
   process.exitCode = 1;
