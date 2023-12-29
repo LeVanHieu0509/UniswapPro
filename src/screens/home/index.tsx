@@ -1,13 +1,11 @@
 import { NavbarWithSearch } from "UI/header";
 import Hero from "UI/hero";
-import { TokenList } from "UI/token-list";
-import ModalWallet from "UI/wallet";
+import SearchToken from "UI/search-token";
+import Setting from "UI/setting";
+import { useCallback, useMemo, useState } from "react";
 import { Container } from "styles";
 import { Flex } from "styles/common";
 import { HomeScreenWrapper } from "./styled";
-import Setting from "UI/setting";
-import { useCallback, useMemo, useState } from "react";
-import SearchToken from "UI/search-token";
 
 type SwitchSetting = "HERO" | "SETTING" | "SEARCH-TOKEN";
 interface HomeScreenProps {}

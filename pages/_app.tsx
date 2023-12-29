@@ -14,6 +14,7 @@ import { default as version } from "../version.json";
 import RootAppLoading from "components/root-app-loading";
 import useWindowResize from "hooks/use-window-resize";
 import { useRouter } from "next/router";
+import { SwapTokenContextProvider } from "../Context/SwapContext";
 
 const App = ({ Component, pageProps }: AppProps) => {
   const size = useWindowResize();
@@ -46,15 +47,17 @@ const App = ({ Component, pageProps }: AppProps) => {
 
   return (
     <Provider store={store}>
-      <ThemeProvider>
-        <MaterialTailwindControllerProvider>
-          <ThemeWrapper component={<Component {...pageProps} />}>
-            <GlobalStyle />
-            <RootAppLoading />
-            <ToastContainer />
-          </ThemeWrapper>
-        </MaterialTailwindControllerProvider>
-      </ThemeProvider>
+      <SwapTokenContextProvider>
+        <ThemeProvider>
+          <MaterialTailwindControllerProvider>
+            <ThemeWrapper component={<Component {...pageProps} />}>
+              <GlobalStyle />
+              <RootAppLoading />
+              <ToastContainer />
+            </ThemeWrapper>
+          </MaterialTailwindControllerProvider>
+        </ThemeProvider>
+      </SwapTokenContextProvider>
     </Provider>
   );
 };

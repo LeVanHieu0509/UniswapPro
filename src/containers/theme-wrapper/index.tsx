@@ -78,18 +78,6 @@ const ThemeWrapper = ({ children, component }: ThemeWrapperProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [linkNotHandle]);
 
-  const handleExpired = () => {
-    setOpenExpiredModal(false);
-    router.replace("/auth/sign-in");
-  };
-
-  useEffect(() => {
-    const currentUser = loadLocalItem("currentUser");
-    if (!currentUser.tokens) {
-      router.replace("/auth/sign-in");
-    }
-  }, []);
-
   // useEffect(() => {
   //   const currentUser = loadLocalItem("currentUser");
   //   const listLinkAccess = listSidenav.filter((item) => item.role.includes(currentUser?.user?.usr_roles));
