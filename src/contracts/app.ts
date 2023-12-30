@@ -5,6 +5,8 @@ import {
   BooTokenAddress,
   IDAIABI,
   IDAIAddress,
+  IUSDCABI,
+  IUSDCAddress,
   IWETHABI,
   IWETHAddress,
   LifeTokenABI,
@@ -122,6 +124,22 @@ export const connectingWithDaiToken = async () => {
     const signer = provider.getSigner();
 
     const contract = fetchContract(signer, IDAIAddress, IDAIABI);
+
+    return contract;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const connectingWithUsdcToken = async () => {
+  try {
+    const web3modal = new Web3Modal();
+
+    const connection = await web3modal.connect();
+    const provider = new ethers.providers.Web3Provider(connection); //Provider is a read-only connection to the blockchain, which allows querying the blockchain state
+    const signer = provider.getSigner();
+
+    const contract = fetchContract(signer, IUSDCAddress, IUSDCABI);
 
     return contract;
   } catch (error) {

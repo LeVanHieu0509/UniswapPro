@@ -27,6 +27,7 @@ export const SwapTokenContextProvider = ({ children }) => {
   const [networkConnect, setNetworkConnect] = useState("");
   const [weth9, setWeth9] = useState("");
   const [dai, setDai] = useState("");
+  const [usdc, setUsdc] = useState("");
 
   const [tokenData, setTokenData] = useState([]);
   const addToken = [
@@ -91,6 +92,12 @@ export const SwapTokenContextProvider = ({ children }) => {
 
       const convertDaiTokenBal = ethers.utils.formatEther(daiToken);
       setDai(convertDaiTokenBal);
+
+      //DAI Balance
+      const usdcContract = await connectingWithDaiToken(); //connect smart contract
+      const usdcBal = await usdcContract.balanceOf(userAccount); //get money
+      const usdcToken = BigNumber.from(usdcBal).toString(); //convert money
+      setUsdc(usdcToken);
     } catch (error) {
       console.log("error", error);
     }
