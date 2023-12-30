@@ -3,8 +3,13 @@ import Web3Modal from "web3modal";
 import {
   BooTokenABI,
   BooTokenAddress,
+  IDAIABI,
+  IDAIAddress,
+  IWETHABI,
+  IWETHAddress,
   LifeTokenABI,
   LifeTokenAddress,
+  SingleSwapTokenABI,
   SingleSwapTokenAddress,
 } from "../../Context/constant";
 
@@ -76,7 +81,7 @@ export const connectingWithLifeToken = async () => {
   }
 };
 
-export const connectingWithSingleWrapToken = async () => {
+export const connectingWithSingleSwapToken = async () => {
   try {
     const web3modal = new Web3Modal();
 
@@ -84,7 +89,39 @@ export const connectingWithSingleWrapToken = async () => {
     const provider = new ethers.providers.Web3Provider(connection); //Provider is a read-only connection to the blockchain, which allows querying the blockchain state
     const signer = provider.getSigner();
 
-    const contract = fetchContract(signer, SingleSwapTokenAddress, LifeTokenABI);
+    const contract = fetchContract(signer, SingleSwapTokenAddress, SingleSwapTokenABI);
+
+    return contract;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const connectingWithIWETHToken = async () => {
+  try {
+    const web3modal = new Web3Modal();
+
+    const connection = await web3modal.connect();
+    const provider = new ethers.providers.Web3Provider(connection); //Provider is a read-only connection to the blockchain, which allows querying the blockchain state
+    const signer = provider.getSigner();
+
+    const contract = fetchContract(signer, IWETHAddress, IWETHABI);
+
+    return contract;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const connectingWithDaiToken = async () => {
+  try {
+    const web3modal = new Web3Modal();
+
+    const connection = await web3modal.connect();
+    const provider = new ethers.providers.Web3Provider(connection); //Provider is a read-only connection to the blockchain, which allows querying the blockchain state
+    const signer = provider.getSigner();
+
+    const contract = fetchContract(signer, IDAIAddress, IDAIABI);
 
     return contract;
   } catch (error) {

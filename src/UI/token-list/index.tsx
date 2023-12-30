@@ -1,50 +1,38 @@
-import React from "react";
-import { Card, CardBody, CardFooter, Typography, Button } from "@material-tailwind/react";
-import { BugAntIcon } from "@heroicons/react/24/solid";
-import Icons from "components/icons";
+import { Button, Card, CardBody, CardFooter, Typography } from "@material-tailwind/react";
+import { useMemo } from "react";
 
-export function TokenList() {
-  const [openNav, setOpenNav] = React.useState(false);
-  const tokens = [
-    {
-      value: 34,
-      name: "GOLD COIN",
-    },
-    {
-      value: 34,
-      name: "GOLD COIN",
-    },
-    {
-      value: 34,
-      name: "GOLD COIN",
-    },
-    {
-      value: 34,
-      name: "GOLD COIN",
-    },
-  ];
+export function TokenList({ data }: any) {
+  const formatData = useMemo(
+    () =>
+      data?.map((item) => ({
+        value: item.tokenBalance,
+        name: item.name,
+        symbol: item.symbol,
+      })),
+    [data]
+  );
+
   return (
     <Card placeholder className="mt-6 w-96">
       <CardBody placeholder>
         <Typography placeholder variant="h5" color="blue-gray" className="mb-2">
-          Connect Wallet
+          Your token list
         </Typography>
 
-        {tokens.map((item) => (
+        {formatData?.map((item) => (
           <div
             role="button"
-            className="border-b flex items-center w-full p-3 leading-tight transition-all rounded-lg outline-none text-start hover:bg-blue-gray-50 hover:bg-opacity-80 hover:text-blue-gray-900 focus:bg-blue-gray-50 focus:bg-opacity-80 focus:text-blue-gray-900 active:bg-blue-gray-50 active:bg-opacity-80 active:text-blue-gray-900"
+            className="border-b flex flex-row align-center  items-center w-full p-3 leading-tight transition-all rounded-lg outline-none text-start hover:bg-blue-gray-50 hover:bg-opacity-80 hover:text-blue-gray-900 focus:bg-blue-gray-50 focus:bg-opacity-80 focus:text-blue-gray-900 active:bg-blue-gray-50 active:bg-opacity-80 active:text-blue-gray-900"
           >
-            <div className="grid mr-4 place-items-center">
-              <Icons icon="tick" color="black" />
+            <div className="mb-0 mr-4  rounded bg-amber-500 p-2 ">
+              <p>{item.name}</p>
             </div>
-            <div>
+
+            <div className="flex flex-row items-center">
               <h6 className="block font-sans text-base antialiased font-semibold leading-relaxed tracking-normal text-blue-gray-900">
-                34
+                {item.value}
               </h6>
-              <p className="block font-sans text-sm antialiased font-normal leading-normal text-gray-700">
-                {item.name}
-              </p>
+              <p className="block font-sans text-sm antialiased font-normal text-gray-700 mb-0 ml-16">{item.symbol}</p>
             </div>
           </div>
         ))}

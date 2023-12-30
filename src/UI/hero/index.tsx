@@ -1,9 +1,9 @@
-import React from "react";
-import { HeroWrapper } from "./styled";
-import { Flex, FlexColumn } from "styles/common";
-import { Button, Typography } from "@material-tailwind/react";
+import { Typography } from "@material-tailwind/react";
 import IconSetting from "components/table/icons/setting";
-import { PowerIcon } from "@heroicons/react/24/outline";
+import { Flex, FlexColumn } from "styles/common";
+import { HeroWrapper } from "./styled";
+import { useContext } from "react";
+import { SwapTokenContext } from "../../../Context/SwapContext";
 
 interface HeroProps {
   setSwitchSetting: any;
@@ -12,6 +12,7 @@ interface HeroProps {
 }
 
 const Hero = ({ transfer, setSwitchSetting, switchSetting }: HeroProps) => {
+  const { singleSwapToken, account, connectWallet, dai, weth9, ether } = useContext(SwapTokenContext);
   return (
     <HeroWrapper className="shadow-xl rounded-xl p-16 mt-24">
       <Flex justify="space-between" className="mb-16" align="center">
@@ -47,10 +48,13 @@ const Hero = ({ transfer, setSwitchSetting, switchSetting }: HeroProps) => {
                 data: "FROM",
               })
             }
-            className="cursor-pointer !absolute right-1 top-1 select-none rounded bg-amber-500 py-2 px-4 text-center align-middle font-sans text-xs font-bold uppercase text-black shadow-md shadow-blue-gray-500/20 transition-all hover:shadow-lg hover:shadow-blue-gray-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+            className="cursor-pointer !absolute right-1 top-1 select-none rounded bg-amber-500 py-1 px-2 text-center align-middle font-sans text-xs font-bold uppercase text-black shadow-md shadow-blue-gray-500/20 transition-all hover:shadow-lg hover:shadow-blue-gray-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
             type="button"
           >
-            {transfer["FROM"]}
+            <div className="flex items-center gap-2 ">
+              <h6 className="bold"> {transfer["FROM"]}</h6>
+              <h6> {ether.slice(0, 7)}</h6>
+            </div>
           </button>
         </div>
 
@@ -70,21 +74,36 @@ const Hero = ({ transfer, setSwitchSetting, switchSetting }: HeroProps) => {
                 data: "TO",
               })
             }
-            className="cursor-pointer !absolute right-1 top-1 select-none rounded bg-amber-500 py-2 px-4 text-center align-middle font-sans text-xs font-bold uppercase text-black shadow-md shadow-blue-gray-500/20 transition-all hover:shadow-lg hover:shadow-blue-gray-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+            className="cursor-pointer !absolute right-1 top-1 select-none rounded bg-amber-500 py-1 px-2 text-center align-middle font-sans text-xs font-bold uppercase text-black shadow-md shadow-blue-gray-500/20 transition-all hover:shadow-lg hover:shadow-blue-gray-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
             type="button"
           >
-            {transfer["TO"]}
+            <div className="flex items-center gap-2 ">
+              <h6 className="bold"> {transfer["TO"]}</h6>
+              <h6> {dai.slice(0, 7)}</h6>
+            </div>
           </button>
         </div>
       </FlexColumn>
 
-      <button
-        className="mt-16 w-full align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-sm py-3.5 px-7 rounded-lg bg-white text-blue-gray-900 shadow-md shadow-blue-gray-500/10 hover:shadow-lg hover:shadow-blue-gray-500/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none flex items-center gap-3"
-        type="button"
-      >
-        <img src="https://docs.material-tailwind.com/icons/metamask.svg" alt="metamask" className="w-6 h-6" />
-        Connect Wallet
-      </button>
+      {account ? (
+        <button
+          onClick={() => singleSwapToken()}
+          className="mt-16 w-full flex items-center justify-center align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-sm py-3.5 px-7 rounded-lg bg-white text-blue-gray-900 shadow-md shadow-blue-gray-500/10 hover:shadow-lg hover:shadow-blue-gray-500/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none flex items-center gap-3"
+          type="button"
+        >
+          <img src="https://docs.material-tailwind.com/icons/metamask.svg" alt="metamask" className="w-6 h-6" />
+          Swap
+        </button>
+      ) : (
+        <button
+          onClick={() => connectWallet()}
+          className=" flex items-center justify-center  mt-16 w-full align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-sm py-3.5 px-7 rounded-lg bg-white text-blue-gray-900 shadow-md shadow-blue-gray-500/10 hover:shadow-lg hover:shadow-blue-gray-500/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none flex items-center gap-3"
+          type="button"
+        >
+          <img src="https://docs.material-tailwind.com/icons/metamask.svg" alt="metamask" className="w-6 h-6" />
+          Connect Wallet
+        </button>
+      )}
     </HeroWrapper>
   );
 };

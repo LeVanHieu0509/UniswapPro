@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Navbar, MobileNav, Typography, Button, IconButton, Input } from "@material-tailwind/react";
 import { Flex } from "styles/common";
 import { TokenList } from "UI/token-list";
 import ModalWallet from "UI/wallet";
+import { SwapTokenContext } from "../../../Context/SwapContext";
 
 export function NavbarWithSearch() {
+  const { account, ether, networkConnect, tokenData, connectWallet } = useContext(SwapTokenContext);
   const [openWallet, setOpenWallet] = React.useState({
     show: false,
     type: "wallet",
@@ -117,24 +119,39 @@ export function NavbarWithSearch() {
             </Button>
 
             <Button placeholder={""} size="md" className="rounded-lg ">
-              Network Name
+              {networkConnect}
             </Button>
-
-            <div>
+            {account ? (
               <Button
-                placeholder={""}
-                size="md"
-                className="rounded-lg "
                 onClick={() =>
                   setOpenWallet({
                     show: !openWallet.show,
-                    type: "wallet",
+                    type: "token",
                   })
                 }
+                placeholder={""}
+                size="md"
+                className="rounded-lg "
               >
-                {openWallet.type == "wallet" ? "Connect" : "0x21312312"}
+                {account.slice(0, 10)}...
               </Button>
-            </div>
+            ) : (
+              <div>
+                <Button
+                  placeholder={""}
+                  size="md"
+                  className="rounded-lg "
+                  onClick={() =>
+                    setOpenWallet({
+                      show: !openWallet.show,
+                      type: "wallet",
+                    })
+                  }
+                >
+                  {openWallet.type == "wallet" ? "Connect" : "0x21312312"}
+                </Button>
+              </div>
+            )}
           </Flex>
 
           {openWallet.show ? (
@@ -144,7 +161,7 @@ export function NavbarWithSearch() {
               </div>
             ) : (
               <div className="absolute top-20 right-0 bg-white z-50">
-                <TokenList />
+                <TokenList data={tokenData} />
               </div>
             )
           ) : null}

@@ -16,7 +16,7 @@ async function main() {
   // Config.setConfig(network + ".booToken", booToken.address);
 
   //BooToken Deploy Section
-  const LifeToken = await hre.ethers.getContractFactory("BooToken");
+  const LifeToken = await hre.ethers.getContractFactory("LifeToken");
   const lifeToken = await LifeToken.deploy();
 
   await lifeToken.deployed();
