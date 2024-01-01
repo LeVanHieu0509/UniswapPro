@@ -50,7 +50,10 @@ const SearchToken = ({ transfer, onChange, setSwitchSetting, switchSetting }: Se
             <ButtonToken
               active={item == transfer[switchSetting.data]}
               onClick={() => {
-                setSwitchSetting(null);
+                setSwitchSetting({
+                  type: "HERO",
+                  data: "",
+                });
                 onChange(switchSetting.data, item);
               }}
               className="cursor-pointer select-none rounded py-2 px-4 text-center align-middle font-sans text-xs font-bold uppercase text-black shadow-md shadow-blue-gray-500/20 transition-all hover:shadow-lg hover:shadow-blue-gray-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"

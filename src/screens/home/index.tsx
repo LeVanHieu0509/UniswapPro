@@ -38,7 +38,7 @@ const HomeScreen = ({}: HomeScreenProps) => {
         [key]: value,
       }));
     },
-    [transfer]
+    [switchSetting]
   );
 
   return (

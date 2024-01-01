@@ -9,16 +9,16 @@ import SwapMultihop from "./SwapMultihop.json";
 // swapToken 0xf274De14171Ab928A5Ec19928cE35FaD91a42B64
 // swapMultihop 0xcb0A9835CDf63c84FE80Fcc59d91d7505871c98B
 
-export const BooTokenAddress = "0x9852795dbb01913439f534b4984fBf74aC8AfA12";
+export const BooTokenAddress = "0xcb0A9835CDf63c84FE80Fcc59d91d7505871c98B";
 export const BooTokenABI = booToken.abi;
 
-export const LifeTokenAddress = "0x889D9A5AF83525a2275e41464FAECcCb3337fF60";
+export const LifeTokenAddress = "0xFD296cCDB97C605bfdE514e9810eA05f421DEBc2";
 export const LifeTokenABI = lifeToken.abi;
 
-export const SingleSwapTokenAddress = "0xf274De14171Ab928A5Ec19928cE35FaD91a42B64";
+export const SingleSwapTokenAddress = "0x8b9d5A75328b5F3167b04B42AD00092E7d6c485c";
 export const SingleSwapTokenABI = swapToken.abi;
 
-export const SwapMultihopAddress = "0xcb0A9835CDf63c84FE80Fcc59d91d7505871c98B";
+export const SwapMultihopAddress = "0x9BcA065E19b6d630032b53A8757fB093CbEAfC1d";
 export const SwapMultihopABI = SwapMultihop.abi;
 
 export const IWETHAddress = "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2";

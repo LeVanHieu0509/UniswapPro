@@ -19,7 +19,10 @@ const ContentLeft = ({ onChange, setTransfer, transfer }: ContentLeftProps) => {
   const [showFeeTeir, setShowFeeTeir] = useState(false);
 
   useClickAway(ref, () => {
-    setSwitchSetting(null);
+    setSwitchSetting({
+      type: "HERO",
+      data: null,
+    });
   });
 
   return (
@@ -55,7 +58,7 @@ const ContentLeft = ({ onChange, setTransfer, transfer }: ContentLeftProps) => {
           {transfer.TO}
           <ArrowDownIcon className="w-5" />
         </button>
-        {switchSetting && (
+        {switchSetting.data && (
           <div className="absolute bg-white z-10 top-16" ref={ref}>
             <SearchToken
               setSwitchSetting={setSwitchSetting}
