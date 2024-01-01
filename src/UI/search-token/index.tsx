@@ -1,11 +1,11 @@
-import { Button, Input, Typography } from "@material-tailwind/react";
+import { Typography } from "@material-tailwind/react";
+import SearchInputIcon from "components/icons/source/search-input";
 import IconSetting from "components/table/icons/setting";
 import { Flex, FlexColumn } from "styles/common";
 import { ButtonToken, SearchTokenWrapper } from "./styled";
-import SearchInputIcon from "components/icons/source/search-input";
 
 interface SearchTokenProps {
-  setSwitchSetting: any;
+  setSwitchSetting?: any;
   switchSetting?: any;
   onChange?: any;
   transfer?: any;
@@ -13,7 +13,7 @@ interface SearchTokenProps {
 
 const SearchToken = ({ transfer, onChange, setSwitchSetting, switchSetting }: SearchTokenProps) => {
   const listToken = ["ETH", "DAI", "DOG", "FUN", "WETH9", "UNI", "TIME", "LOO", "OOO", "HEY"];
-  console.log("setSwitchSetting", switchSetting);
+
   return (
     <SearchTokenWrapper className="shadow-xl rounded-xl p-16 mt-24">
       <Flex justify="space-between" className="mb-16" align="center">
@@ -50,10 +50,7 @@ const SearchToken = ({ transfer, onChange, setSwitchSetting, switchSetting }: Se
             <ButtonToken
               active={item == transfer[switchSetting.data]}
               onClick={() => {
-                setSwitchSetting({
-                  type: "HERO",
-                  data: "",
-                });
+                setSwitchSetting(null);
                 onChange(switchSetting.data, item);
               }}
               className="cursor-pointer select-none rounded py-2 px-4 text-center align-middle font-sans text-xs font-bold uppercase text-black shadow-md shadow-blue-gray-500/20 transition-all hover:shadow-lg hover:shadow-blue-gray-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
