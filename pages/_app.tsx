@@ -14,7 +14,7 @@ import { default as version } from "../version.json";
 import RootAppLoading from "components/root-app-loading";
 import useWindowResize from "hooks/use-window-resize";
 import { useRouter } from "next/router";
-import { SwapTokenContextProvider } from "../Context/SwapContext";
+import { SwapTokenContextProvider } from "../Context/SwapTokenContextProvider";
 
 const App = ({ Component, pageProps }: AppProps) => {
   const size = useWindowResize();

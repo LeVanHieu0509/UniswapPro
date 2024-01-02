@@ -3,7 +3,7 @@ import { Navbar, MobileNav, Typography, Button, IconButton, Input } from "@mater
 import { Flex } from "styles/common";
 import { TokenList } from "UI/token-list";
 import ModalWallet from "UI/wallet";
-import { SwapTokenContext } from "../../../Context/SwapContext";
+import { SwapTokenContext } from "../../../Context/SwapTokenContextProvider";
 
 export function NavbarWithSearch() {
   const { account, ether, networkConnect, tokenData, connectWallet } = useContext(SwapTokenContext);

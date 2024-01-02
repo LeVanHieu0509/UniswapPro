@@ -118,6 +118,8 @@ contract LiquidityExamples is IERC721Receiver {
     // Số lượng phí thu được sẽ được trả về và in ra thông qua console.log.
 
     function collectAllFees() external returns (uint256 amount0, uint256 amount1) {
+        // nonfungiblePositionManager.safeTransferFrom(msg.sender, address(this), tokenId);
+
         //set amount0max and mount1Max to uint256.max to collect all fees
         //alternatively can set recipient to msg.sender and avoid another transaction in  `sendToOwner`
         INonfungiblePositionManager.CollectParams memory params = INonfungiblePositionManager.CollectParams({
@@ -160,6 +162,19 @@ contract LiquidityExamples is IERC721Receiver {
         console.log("liquidity", liquidity);
         console.log("amount 0 ", amount0);
         console.log("amount 1", amount1);
+        // send collected feed back to owner
+        _sendToOwner(tokenId, amount0, amount1);
+    }
+
+    function _sendToOwner(uint256 tokenId, uint256 amount0, uint256 amount1) internal {
+        // get owner of contract
+        address owner = deposits[tokenId].owner;
+
+        address token0 = deposits[tokenId].token0;
+        address token1 = deposits[tokenId].token1;
+        // send collected fees to owner
+        TransferHelper.safeTransfer(token0, owner, amount0);
+        TransferHelper.safeTransfer(token1, owner, amount1);
     }
 
     // Đây là một hàm public view để truy vấn thông tin về thanh khoản của một vị trí không thay đổi dựa trên tokenId.

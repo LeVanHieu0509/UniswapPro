@@ -3,16 +3,37 @@ import IconSetting from "components/table/icons/setting";
 import { Flex, FlexColumn } from "styles/common";
 import { HeroWrapper } from "./styled";
 import { useContext } from "react";
-import { SwapTokenContext } from "../../../Context/SwapContext";
+import { SwapTokenContext } from "../../../Context/SwapTokenContextProvider";
+import LoadingSection from "components/loading";
 
 interface HeroProps {
   setSwitchSetting: any;
   switchSetting: any;
   transfer?: any;
+  callOutPut?: any;
+  setSwapAmount?: any;
+  tokenSwapOutput?: any;
+  swapAmount?: any;
+  poolMessage?: any;
+  setSearch?: any;
+  search?: any;
 }
 
-const Hero = ({ transfer, setSwitchSetting, switchSetting }: HeroProps) => {
-  const { singleSwapToken, account, connectWallet, dai, weth9, ether } = useContext(SwapTokenContext);
+const Hero = ({
+  swapAmount,
+  poolMessage,
+  tokenSwapOutput,
+  setSwapAmount,
+  callOutPut,
+  transfer,
+  setSwitchSetting,
+  switchSetting,
+  setSearch,
+  search,
+}: HeroProps) => {
+  const { singleSwapToken, account, connectWallet } = useContext(SwapTokenContext);
+
+  console.log(swapAmount);
   return (
     <HeroWrapper className="shadow-xl rounded-xl p-16 mt-24">
       <Flex justify="space-between" className="mb-16" align="center">
@@ -35,10 +56,12 @@ const Hero = ({ transfer, setSwitchSetting, switchSetting }: HeroProps) => {
         <div className="relative flex w-full max-w-[24rem]">
           <div className="relative h-10 w-full min-w-[200px]">
             <input
+              onChange={(e) => (callOutPut(e.target.value), setSwapAmount(e.target.value), setSearch(true))}
               type="email"
               className="peer h-full w-full rounded-[7px] border border-blue-gray-200  bg-transparent px-3 py-2.5 pr-20 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-gray-900 focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
               placeholder=" "
-              value="0"
+              value={swapAmount}
+              defaultValue={0}
             />
           </div>
           <button
@@ -52,8 +75,8 @@ const Hero = ({ transfer, setSwitchSetting, switchSetting }: HeroProps) => {
             type="button"
           >
             <div className="flex items-center gap-2 ">
-              <h6 className="bold"> {transfer["FROM"]}</h6>
-              <h6> {ether.slice(0, 7)}</h6>
+              <h6 className="bold"> {transfer["FROM"].symbol}</h6>
+              <h6>{transfer["FROM"]?.tokenBalance?.slice(0, 9)}</h6>
             </div>
           </button>
         </div>
@@ -64,7 +87,7 @@ const Hero = ({ transfer, setSwitchSetting, switchSetting }: HeroProps) => {
               type="email"
               className="peer h-full w-full rounded-[7px] border border-blue-gray-200  bg-transparent px-3 py-2.5 pr-20 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-gray-900 focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
               placeholder=" "
-              value="0"
+              value={search ? "0" : tokenSwapOutput}
             />
           </div>
           <button
@@ -78,16 +101,23 @@ const Hero = ({ transfer, setSwitchSetting, switchSetting }: HeroProps) => {
             type="button"
           >
             <div className="flex items-center gap-2 ">
-              <h6 className="bold"> {transfer["TO"]}</h6>
-              <h6> {dai.slice(0, 7)}</h6>
+              <h6 className="bold"> {transfer["TO"].symbol}</h6>
+              <h6>{transfer["TO"]?.tokenBalance?.slice(0, 9)}</h6>
             </div>
           </button>
         </div>
       </FlexColumn>
 
+      {search ? <LoadingSection loading={true} /> : poolMessage}
       {account ? (
         <button
-          onClick={() => singleSwapToken()}
+          onClick={() =>
+            singleSwapToken({
+              token1: transfer["FROM"],
+              token2: transfer["TO"],
+              swapAmount,
+            })
+          }
           className="mt-16 w-full flex items-center justify-center align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-sm py-3.5 px-7 rounded-lg bg-white text-blue-gray-900 shadow-md shadow-blue-gray-500/10 hover:shadow-lg hover:shadow-blue-gray-500/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none flex items-center gap-3"
           type="button"
         >
