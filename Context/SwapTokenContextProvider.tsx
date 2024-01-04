@@ -35,11 +35,11 @@ export const SwapTokenContextProvider = ({ children }) => {
 
   const [tokenData, setTokenData] = useState([]);
   const addToken = [
-    "0xcb0A9835CDf63c84FE80Fcc59d91d7505871c98B",
-    "0xFD296cCDB97C605bfdE514e9810eA05f421DEBc2",
-    "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-    "0x6B175474E89094C44Da98b954EedeAC495271d0F",
-    "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+    "0x9BcA065E19b6d630032b53A8757fB093CbEAfC1d", //Boo token
+    "0xd8A9159c111D0597AD1b475b8d7e5A217a1d1d05", //Life token
+    "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2", //weth token
+    "0x6B175474E89094C44Da98b954EedeAC495271d0F", //dai token
+    "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48", //usdc token
   ];
 
   //Fetch Data

@@ -55,7 +55,7 @@ const HomeScreen = ({}: HomeScreenProps) => {
 
   const callOutPut = useCallback(async (value) => {
     if (value) {
-      const yourAccount = "0x97f991971a37D4Ca58064e6a98FC563F03A71E5c";
+      const yourAccount = "0x436eC5B5bC4EbeDc45999512e4Abe9E97a2c33cb";
       const deadline = 10,
         slippageAmount = 25;
 

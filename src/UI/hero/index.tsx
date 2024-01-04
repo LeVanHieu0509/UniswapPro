@@ -108,7 +108,7 @@ const Hero = ({
         </div>
       </FlexColumn>
 
-      {search ? <LoadingSection loading={true} /> : poolMessage}
+      <div className="mt-16"> {search ? <LoadingSection loading={true} /> : poolMessage}</div>
       {account ? (
         <button
           onClick={() =>
