@@ -1,7 +1,14 @@
 require("@nomicfoundation/hardhat-toolbox");
+const dotenv = require("dotenv");
+dotenv.config({ path: __dirname + "/.env" });
 
 module.exports = {
   solidity: {
+    hardhat: {
+      chainId: 31337,
+      // gas: 2100000,
+      // gasPrice: 8000000000,
+    },
     compilers: [
       {
         version: "0.7.6",

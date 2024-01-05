@@ -54,7 +54,7 @@ export const swapUpdatePrice = async ({
     value: BigNumber.from(route.methodParameters.value),
     from: walletAddress,
     gasPrice: BigNumber.from(route.gasPriceWei),
-    gasLimit: ethers.utils.hexlify(1000000),
+    gasLimit: ethers.utils.hexlify(35000),
   };
 
   const quoteAmountOut: any = route.quote.toFixed(6);

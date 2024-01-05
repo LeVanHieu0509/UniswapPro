@@ -144,7 +144,7 @@ export const SwapTokenContextProvider = ({ children }) => {
         token2.tokenAddress.tokenAddress,
         amountIn,
         {
-          gasLimit: 3000000,
+          gasLimit: 35000,
         }
       );
 
