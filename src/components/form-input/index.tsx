@@ -82,6 +82,7 @@ const FormInput = ({ listInput, modifiedData, onChange }: FormProps) => {
 
                 {col.type == "select" ? (
                   <Select
+                    placeholder
                     disabled={col.disabled}
                     labelProps={{
                       className: " ml-4  before:content-none after:content-none",

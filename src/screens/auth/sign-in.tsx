@@ -84,13 +84,13 @@ export function SignIn() {
       />
       <div className="absolute inset-0 z-0 h-full w-full bg-black/50" />
       <div className="container mx-auto p-4">
-        <Card className="absolute top-2/4 left-2/4 w-full max-w-[24rem] -translate-y-2/4 -translate-x-2/4">
-          <CardHeader variant="gradient" color="blue" className="mb-4 grid h-28 place-items-center">
-            <Typography variant="h3" color="white">
+        <Card placeholder className="absolute top-2/4 left-2/4 w-full max-w-[24rem] -translate-y-2/4 -translate-x-2/4">
+          <CardHeader placeholder variant="gradient" color="blue" className="mb-4 grid h-28 place-items-center">
+            <Typography placeholder variant="h3" color="white">
               Login
             </Typography>
           </CardHeader>
-          <CardBody className="flex flex-col gap-4">
+          <CardBody placeholder className="flex flex-col gap-4">
             <Input
               className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
               labelProps={{
@@ -114,11 +114,11 @@ export function SignIn() {
               onChange={(e) => onChangeInput("password", e.target.value)}
             />
           </CardBody>
-          <CardFooter className="pt-0">
-            <Button variant="gradient" fullWidth onClick={handleLogin}>
+          <CardFooter placeholder className="pt-0">
+            <Button placeholder variant="gradient" fullWidth onClick={handleLogin}>
               Đăng nhập
             </Button>
-            <Typography variant="small" className="mt-6 flex justify-center">
+            <Typography placeholder variant="small" className="mt-6 flex justify-center">
               Chúc bạn một ngày làm việc vui vẻ!
               {/* <Link href="/auth/sign-up">
                 <Typography as="span" variant="small" color="blue" className="ml-1 font-bold">

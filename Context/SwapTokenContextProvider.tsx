@@ -4,6 +4,8 @@ import {
   connectingWithDaiToken,
   connectingWithIWETHToken,
   connectingWithSingleSwapToken,
+  connectingWithUserStorageContract,
+  // connectingWithUserStorageContract,
 } from "contracts/app";
 import { BigNumber, ethers } from "ethers";
 import React, { useEffect, useState } from "react";
@@ -11,6 +13,19 @@ import Web3Modal from "web3modal";
 import ERC20 from "./ERC20Token.json";
 import { getPrice } from "../src/contracts/fetchingPrice";
 import { swapUpdatePrice } from "../src/contracts/swapUpdatePrice";
+import {
+  BooTokenAddress,
+  LifeTokenAddress,
+  PopUpTokenAddress,
+  RayyanTokenAddress,
+  ShoaibTokenAddress,
+} from "./constant";
+import { getLiquidityData } from "contracts/checkLiquidity";
+import { connectingWithPoolContract } from "contracts/deployPool";
+import { addLiquidityExternal } from "contracts/addLiquidity";
+// import { addLiquidityExternal } from "contracts/addLiquidity";
+// import { connectingWithPoolContract } from "contracts/deployPool";
+// import { getLiquidityData } from "contracts/checkLiquidity";
 
 export const SwapTokenContext = React.createContext<{
   account: string;
@@ -23,6 +38,8 @@ export const SwapTokenContext = React.createContext<{
   connectWallet: any;
   getPrice: any;
   swapUpdatePrice: any;
+  getAllLiquidity?: any;
+  createLiquidityAndPool?: any;
 }>(null);
 
 export const SwapTokenContextProvider = ({ children }) => {
@@ -34,9 +51,14 @@ export const SwapTokenContextProvider = ({ children }) => {
   const [usdc, setUsdc] = useState("");
 
   const [tokenData, setTokenData] = useState([]);
+  const [getAllLiquidity, setGetAllLiquidity] = useState([]);
+
   const addToken = [
-    "0x9BcA065E19b6d630032b53A8757fB093CbEAfC1d", //Boo token
-    "0xd8A9159c111D0597AD1b475b8d7e5A217a1d1d05", //Life token
+    BooTokenAddress, //Boo token
+    LifeTokenAddress, //Life token
+    PopUpTokenAddress,
+    RayyanTokenAddress,
+    ShoaibTokenAddress,
     "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2", //weth token
     "0x6B175474E89094C44Da98b954EedeAC495271d0F", //dai token
     "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48", //usdc token
@@ -85,6 +107,20 @@ export const SwapTokenContextProvider = ({ children }) => {
         });
       });
 
+      //GET LIQUIDITY
+      const userStorageData = await connectingWithUserStorageContract();
+      const userLiquidity = await userStorageData.getAllTransactions();
+
+      console.log({ userLiquidity });
+
+      userLiquidity.map(async (el) => {
+        const liquidityData = await getLiquidityData(el.poolAddress, el.tokenAddress0, el.tokenAddress1);
+
+        getAllLiquidity.push(liquidityData);
+
+        console.log({ getAllLiquidity });
+      });
+
       //WETH Balance
       const wethContract = await connectingWithIWETHToken(); //connect smart contract
       const wethBal = await wethContract.balanceOf(userAccount); //get money
@@ -110,7 +146,52 @@ export const SwapTokenContextProvider = ({ children }) => {
       console.log("error", error);
     }
   };
+  //CREATE AND ADD LIQUIDITY
+  const createLiquidityAndPool = async ({
+    tokenAddress0,
+    tokenAddress1,
+    fee,
+    tokenPrice1,
+    tokenPrice2,
+    slippage,
+    deadline,
+    tokenAmountOne,
+    tokenAmountTwo,
+  }) => {
+    console.log({
+      tokenAddress0,
+      tokenAddress1,
+      fee,
+      tokenPrice1,
+      tokenPrice2,
+      slippage,
+      deadline,
+      tokenAmountOne,
+      tokenAmountTwo,
+    });
+    try {
+      //Create pool
+      const createPool = await connectingWithPoolContract(tokenAddress0, tokenAddress1, fee, tokenPrice1, tokenPrice2);
+      const poolAddress = createPool;
+      //create liquidity
+      const info = await addLiquidityExternal(
+        tokenAddress0,
+        tokenAddress1,
+        poolAddress,
+        tokenAmountOne,
+        tokenAmountTwo
+      );
+      console.log({ info });
+      // ADD DATA
+      const userStorageData = await connectingWithUserStorageContract();
+      const userLiquidity = await userStorageData.addToBlockchain(poolAddress, tokenAddress0, tokenAddress1);
+      console.log({ userLiquidity });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
+  //SINGLE
   const singleSwapToken = async ({ token1, token2, swapAmount }) => {
     console.log({
       token1: token1.tokenAddress.tokenAddress,
@@ -171,6 +252,8 @@ export const SwapTokenContextProvider = ({ children }) => {
   return (
     <SwapTokenContext.Provider
       value={{
+        createLiquidityAndPool,
+        getAllLiquidity,
         connectWallet: connectWallet,
         getPrice,
         swapUpdatePrice,

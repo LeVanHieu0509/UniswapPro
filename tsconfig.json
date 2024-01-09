@@ -25,6 +25,7 @@
     ".d.ts",
     "src",
     "test/SingleSwap.js",
+    "hardhat.config.js",
     "hardhat.config.cjs"
   ],
   "exclude": ["node_modules"]

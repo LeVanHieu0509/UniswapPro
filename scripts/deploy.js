@@ -40,6 +40,12 @@ async function main() {
   await swapMultihop.deployed();
   console.log(`swapMultihop ${swapMultihop.address}`);
   // Config.setConfig(network + ".swapMultihop", swapMultihop.address);
+
+  const UserStorageData = await hre.ethers.getContractFactory("UserStorageData");
+  const userStorageData = await UserStorageData.deploy();
+
+  await userStorageData.deployed();
+  console.log(`userStorageData ${userStorageData.address}`);
 }
 
 main().catch((error) => {

@@ -40,19 +40,20 @@ export function TransparentTabs() {
   return (
     <Tabs value="html" className="max-w-[40rem] mt-20">
       <TabsHeader
+        placeholder
         className="bg-transparent"
         indicatorProps={{
           className: "mt-6 bg-transparent rounded-none shadow-none border-solid border-b-2 border-white",
         }}
       >
         {data.map(({ label, value }) => (
-          <Tab className="text-white" key={value} value={value}>
+          <Tab placeholder className="text-white" key={value} value={value}>
             {label}
           </Tab>
         ))}
       </TabsHeader>
 
-      <TabsBody>
+      <TabsBody placeholder>
         {data.map(({ value, desc }) => (
           <TabPanel className="text-white" key={value} value={value}>
             {desc}

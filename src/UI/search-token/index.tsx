@@ -50,8 +50,9 @@ const SearchToken = ({ transfer, onChange, setSwitchSetting, switchSetting }: Se
         </div>
 
         <div className="relative grid gap-x-2 gap-y-3 grid-cols-4">
-          {tokenData.map((item) => (
+          {tokenData.map((item, key) => (
             <ButtonToken
+              key={key}
               active={item.symbol == transfer[switchSetting.data].symbol}
               onClick={() => {
                 setSwitchSetting({

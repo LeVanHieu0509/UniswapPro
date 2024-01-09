@@ -3,6 +3,7 @@ import { Carousel } from "@material-tailwind/react";
 export function CarouselCustomNavigation({ children, height = 400, className = "" }) {
   return (
     <Carousel
+      placeholder
       autoplayDelay={4000}
       loop
       autoplay

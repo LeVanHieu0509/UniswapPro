@@ -44,6 +44,7 @@ const ModalCustom = ({
 
   return (
     <Dialog
+      placeholder
       className="overflow-auto relative"
       aria-labelledby="modal-title"
       open={show}
@@ -53,11 +54,13 @@ const ModalCustom = ({
       }}
     >
       <DialogWrapper>
-        <DialogHeader>
+        <DialogHeader placeholder>
           <Flex justify="space-between" className="w-full">
-            <Typography variant="h6">{title}</Typography>
+            <Typography placeholder variant="h6">
+              {title}
+            </Typography>
             {onCloseModal && (
-              <IconButton color="blue-gray" size="sm" variant="text" onClick={onCloseModal}>
+              <IconButton placeholder color="blue-gray" size="sm" variant="text" onClick={onCloseModal}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -72,13 +75,14 @@ const ModalCustom = ({
             )}
           </Flex>
         </DialogHeader>
-        <DialogBody>{children}</DialogBody>
+        <DialogBody placeholder>{children}</DialogBody>
 
         {secondaryBtn || primaryBtn ? (
-          <DialogFooter>
+          <DialogFooter placeholder>
             <Flex gap={16} gapMb={16}>
               {secondaryBtn ? (
                 <Button
+                  placeholder
                   disabled={secondaryBtn?.disable}
                   onClick={secondaryBtn?.onClick}
                   style={{
@@ -92,6 +96,7 @@ const ModalCustom = ({
               ) : null}
               {primaryBtn ? (
                 <Button
+                  placeholder
                   disabled={primaryBtn?.disable}
                   style={{
                     width: "140px",

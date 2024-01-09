@@ -138,8 +138,8 @@ const Table = ({
       pre.attribute?.key !== attribute.key
         ? { attribute: attribute, isASC: true }
         : pre.isASC === true
-        ? { attribute: attribute, isASC: false }
-        : { attribute: null, isASC: null }
+          ? { attribute: attribute, isASC: false }
+          : { attribute: null, isASC: null }
     );
   }, []);
 

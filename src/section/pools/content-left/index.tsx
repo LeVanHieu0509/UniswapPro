@@ -11,9 +11,11 @@ interface ContentLeftProps {
   onChange: any;
   transfer: any;
   setTransfer: any;
+  onChangeCreatePool: any;
+  modifiedData: any;
 }
 
-const ContentLeft = ({ onChange, setTransfer, transfer }: ContentLeftProps) => {
+const ContentLeft = ({ modifiedData, onChange, setTransfer, transfer, onChangeCreatePool }: ContentLeftProps) => {
   const ref = useRef<HTMLDivElement>();
   const [switchSetting, setSwitchSetting] = useState<{ type: SwitchSetting; data: any }>(null);
   const [showFeeTeir, setShowFeeTeir] = useState(false);
@@ -24,6 +26,27 @@ const ContentLeft = ({ onChange, setTransfer, transfer }: ContentLeftProps) => {
       data: null,
     });
   });
+
+  const listFeePairs = [
+    {
+      fee: "0.05",
+      info: "Best for stable pairs",
+      number: "0% Select",
+      feeSystem: 500,
+    },
+    {
+      fee: "0.3%",
+      info: "Best for stable pairs",
+      number: "0% Select",
+      feeSystem: 3000,
+    },
+    {
+      fee: "1%",
+      info: "Best for stable pairs",
+      number: "0% Select",
+      feeSystem: 10000,
+    },
+  ];
 
   return (
     <ContentLeftWrapper className="border p-16 rounded-xl">
@@ -41,7 +64,7 @@ const ContentLeft = ({ onChange, setTransfer, transfer }: ContentLeftProps) => {
           type="button"
         >
           <FireIcon className="w-5" />
-          {transfer.FROM}
+          {transfer.FROM.symbol}
           <ArrowDownIcon className="w-5" />
         </button>
         <button
@@ -55,10 +78,10 @@ const ContentLeft = ({ onChange, setTransfer, transfer }: ContentLeftProps) => {
           type="button"
         >
           <FireIcon className="w-5" />
-          {transfer.TO}
+          {transfer.TO.symbol}
           <ArrowDownIcon className="w-5" />
         </button>
-        {switchSetting.data && (
+        {switchSetting?.data && (
           <div className="absolute bg-white z-10 top-16" ref={ref}>
             <SearchToken
               setSwitchSetting={setSwitchSetting}
@@ -87,20 +110,26 @@ const ContentLeft = ({ onChange, setTransfer, transfer }: ContentLeftProps) => {
         </Flex>
         {showFeeTeir && (
           <Flex gap={16}>
-            {["0.05", "0.3", "1"].map((item) => (
-              <FlexColumn gap={16} className="border-2 rounded-xl p-8 mt-20" justify="space-between" align="center">
+            {listFeePairs.map((item, key) => (
+              <FlexColumn
+                key={key}
+                gap={16}
+                className="border-2 rounded-xl p-8 mt-20"
+                justify="space-between"
+                align="center"
+              >
                 <Flex className="w-full" align="center" justify="space-between">
-                  <h4 className="bold">{item}%</h4>
-                  <Checkbox crossOrigin defaultChecked className="w-6" />
+                  <h4 className="bold">{item.fee}%</h4>
+                  <Checkbox onClick={(e) => onChangeCreatePool("fee", item.feeSystem)} crossOrigin className="w-6" />
                 </Flex>
-                <p className="mb-0">the % you will earn in fee</p>
+                <p className="mb-0">{item.info}</p>
 
                 <button
                   onClick={() => {}}
                   className=" w-100 bg-amber-500  font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-sm py-3.5 px-7 rounded-lg  text-blue-gray-900 shadow-md shadow-blue-gray-500/10 hover:shadow-lg hover:shadow-blue-gray-500/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none"
                   type="button"
                 >
-                  Select
+                  {item.number}
                 </button>
               </FlexColumn>
             ))}
@@ -115,34 +144,36 @@ const ContentLeft = ({ onChange, setTransfer, transfer }: ContentLeftProps) => {
           <FlexColumn>
             <div className="relative flex w-full justify-between gap-4">
               <input
+                onChange={(e) => onChangeCreatePool("tokenAmountOne", e.target.value)}
                 type="email"
                 className="peer  w-full rounded-[7px] border border-blue-gray-200  bg-transparent px-3 py-2.5 pr-20 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-gray-900 focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
-                placeholder=" "
-                value="0"
+                placeholder={transfer["FROM"].tokenBalance?.slice(0, 9)}
+                value={modifiedData.tokenAmountOne}
               />
               <button
                 className="cursor-pointer  select-none rounded bg-amber-500 py-2 px-4 text-center align-middle font-sans text-xs font-bold uppercase text-black shadow-md shadow-blue-gray-500/20 transition-all hover:shadow-lg hover:shadow-blue-gray-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                 type="button"
               >
-                Uniswap
-                <p className="mb-0">Bal: 0</p>
+                {transfer["FROM"].symbol}
+                <p className="mb-0">{transfer["FROM"].name}</p>
               </button>
             </div>
           </FlexColumn>
           <FlexColumn>
             <div className="relative flex w-full justify-between gap-4">
               <input
+                onChange={(e) => onChangeCreatePool("tokenAmountTwo", e.target.value)}
                 type="email"
                 className="peer  w-full rounded-[7px] border border-blue-gray-200  bg-transparent px-3 py-2.5 pr-20 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-gray-900 focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
-                placeholder=" "
-                value="0"
+                placeholder={transfer["TO"].tokenBalance?.slice(0, 9)}
+                value={modifiedData.tokenAmountTwo}
               />
               <button
                 className="cursor-pointer  select-none rounded bg-amber-500 py-2 px-4 text-center align-middle font-sans text-xs font-bold uppercase text-black shadow-md shadow-blue-gray-500/20 transition-all hover:shadow-lg hover:shadow-blue-gray-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                 type="button"
               >
-                Ether
-                <p className="mb-0">Bal: 0</p>
+                {transfer["TO"].symbol}
+                <p className="mb-0">{transfer["TO"].name}</p>
               </button>
             </div>
           </FlexColumn>
