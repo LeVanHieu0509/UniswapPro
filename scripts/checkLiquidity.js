@@ -1,11 +1,8 @@
-// pool
-USDT_USDC_500 = "0xEfE2a82217e83B89718301B2Dd88a90DEa343d0f";
-SHOAIB_RAY = "0x898DF30179628b1C757eA9D668f2230087663A52";
-
 const { Token } = require("@uniswap/sdk-core");
 const UniswapV3Pool = require("@uniswap/v3-core/artifacts/contracts/UniswapV3Pool.sol/UniswapV3Pool.json");
 const { Pool } = require("@uniswap/v3-sdk");
 const { Contract } = require("ethers");
+const { SHOAIB_RAY } = require("../constants");
 
 async function getPoolData(poolContract) {
   const [tickSpacing, fee, liquidity, slot0, factory, token0, token1, maxLiquidityPerTick] = await Promise.all([

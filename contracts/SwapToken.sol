@@ -26,9 +26,9 @@ contract SwapToken {
     uint24 public constant poolFee = 3000;
 
     function swapExactInputSingle(
-        address token1,
-        address token2,
-        uint256 amountIn
+        address token1, //token đầu vào
+        address token2, //token đầu ra
+        uint256 amountIn //Số lượng token đầu vào mà người dùng muốn trao đổi.
     ) external returns (uint256 amountOut) {
         TransferHelper.safeTransferFrom(token1, msg.sender, address(this), amountIn);
 

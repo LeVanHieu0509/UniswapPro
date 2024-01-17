@@ -23,6 +23,11 @@ const PoolsScreen = ({}: PoolsScreenProps) => {
     tokenAmountTwo: 0,
   });
 
+  let tokenList = [];
+  for (let i = 0; i < getAllLiquidity.length; i++) {
+    tokenList.push(getAllLiquidity[i]);
+  }
+
   const [showAddLiquidity, setShowAddLiquidity] = useState(false);
   const [transfer, setTransfer] = useState({
     FROM: {
@@ -124,10 +129,12 @@ const PoolsScreen = ({}: PoolsScreenProps) => {
                   <h4 className="mb-16">Your Position</h4>
 
                   <FlexColumn gap={16} className="w-100 rounded-xl border p-16">
-                    {[0, 1].map((_, key) => (
+                    {tokenList.map((item, key) => (
                       <Flex key={key} justify="space-between" align="center" className="w-full">
                         <FlexColumn>
-                          <h4>Shoab/Ryyan3000</h4>
+                          <h4>
+                            {item.poolExample.token0.name}/{item.poolExample.token1.name} {item.fee}
+                          </h4>
                           <p>Min: 0.999 --- Max: 1.000</p>
                         </FlexColumn>
                         <button

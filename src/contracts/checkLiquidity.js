@@ -30,15 +30,15 @@ const getPoolData = async (poolContract, tokenAddress1, tokenAddress2) => {
 
   //token1
   const token1Name = await token1Contract.name();
-  const token1Symbol = await token1Contract.Symbol();
+  const token1Symbol = await token1Contract.symbol();
   const token1Decimals = await token1Contract.decimals();
-  const token1Address = await token1Contract.address();
+  const token1Address = await token1Contract.address;
 
   //token2
   const token2Name = await token2Contract.name();
-  const token2Symbol = await token2Contract.Symbol();
+  const token2Symbol = await token2Contract.symbol();
   const token2Decimals = await token2Contract.decimals();
-  const token2Address = await token2Contract.address();
+  const token2Address = await token2Contract.address;
 
   const TokenA = new Token(chainId, token1Address, token1Decimals, token1Name, token1Symbol);
   const TokenB = new Token(chainId, token2Address, token2Decimals, token2Name, token2Symbol);

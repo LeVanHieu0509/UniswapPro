@@ -117,10 +117,8 @@ export const SwapTokenContextProvider = ({ children }) => {
         const liquidityData = await getLiquidityData(el.poolAddress, el.tokenAddress0, el.tokenAddress1);
 
         getAllLiquidity.push(liquidityData);
-
-        console.log({ getAllLiquidity });
       });
-
+      console.log({ getAllLiquidity });
       //WETH Balance
       const wethContract = await connectingWithIWETHToken(); //connect smart contract
       const wethBal = await wethContract.balanceOf(userAccount); //get money
@@ -178,6 +176,7 @@ export const SwapTokenContextProvider = ({ children }) => {
         tokenAddress0,
         tokenAddress1,
         poolAddress,
+        fee,
         tokenAmountOne,
         tokenAmountTwo
       );

@@ -2,13 +2,7 @@ import Web3Modal from "web3modal";
 import { Contract, ethers } from "ethers";
 import { Token } from "@uniswap/sdk-core";
 import { Pool, Position, nearestUsableTick } from "@uniswap/v3-sdk";
-
-const WETH_ADDRESS = "0xd8A9159c111D0597AD1b475b8d7e5A217a1d1d05";
-const FACTORY_ADDRESS = "0xCdb63c58b907e76872474A0597C5252eDC97c883";
-const SWAP_ROUTER_ADDRESS = "0x15BB2cc3Ea43ab2658F7AaecEb78A9d3769BE3cb";
-const NFT_DESCRIPTOR_ADDRESS = "0xa4d0806d597146df93796A38435ABB2a3cb96677";
-const POSITION_DESCRIPTOR_ADDRESS = "0xAE246E208ea35B3F23dE72b697D47044FC594D5F";
-const POSITION_MANAGER_ADDRESS = "0x82BBAA3B0982D88741B275aE1752DB85CAfe3c65";
+import { POSITION_MANAGER_ADDRESS } from "../../constants";
 
 const artifacts = {
   NonfungiblePositionManager: require("@uniswap/v3-periphery/artifacts/contracts/NonfungiblePositionManager.sol/NonfungiblePositionManager.json"),
@@ -19,12 +13,10 @@ const artifacts = {
 
 const getPoolData = async (poolContract) => {
   const [tickSpacing, fee, liquidity, slot0] = await Promise.all([
-    poolContract.tickSpacing(
-      poolContract.tickSpacing(),
-      poolContract.fee(),
-      poolContract.liquidity(),
-      poolContract.slot0()
-    ),
+    poolContract.tickSpacing(),
+    poolContract.fee(),
+    poolContract.liquidity(),
+    poolContract.slot0(),
   ]);
 
   return {
@@ -68,22 +60,26 @@ export const addLiquidityExternal = async (
 
   //token1
   const token1Name = await token1Contract.name();
-  const token1Symbol = await token1Contract.Symbol();
+  const token1Symbol = await token1Contract.symbol();
   const token1Decimals = await token1Contract.decimals();
-  const token1Address = await token1Contract.address();
+  const token1Address = await token1Contract.address;
+
+  console.log("token1Address", token1Address);
 
   //token2
   const token2Name = await token2Contract.name();
-  const token2Symbol = await token2Contract.Symbol();
+  const token2Symbol = await token2Contract.symbol();
   const token2Decimals = await token2Contract.decimals();
-  const token2Address = await token2Contract.address();
+  const token2Address = await token2Contract.address;
+
+  console.log("token2Address", token2Address);
 
   const TokenA = new Token(chainId, token1Address, token1Decimals, token1Name, token1Symbol);
   const TokenB = new Token(chainId, token2Address, token2Decimals, token2Name, token2Symbol);
 
   const poolData = await getPoolData(poolContract);
   console.log({ poolData });
-
+  debugger;
   const pool = new Pool(
     TokenA,
     TokenB,
@@ -116,13 +112,13 @@ export const addLiquidityExternal = async (
     deadline: Math.floor(Date.now() / 1000) + 60 * 10,
   };
 
-  const nofungiblePositionManager = new Contract(
+  const nonfungiblePositionManager = new Contract(
     POSITION_MANAGER_ADDRESS,
     artifacts.NonfungiblePositionManager.abi,
     provider
   );
 
-  const tx = await nofungiblePositionManager.connect(signer).mint(params, {
+  const tx = await nonfungiblePositionManager.connect(signer).mint(params, {
     gasLimit: "1000000",
   });
 

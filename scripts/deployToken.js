@@ -23,9 +23,9 @@ async function main() {
   await usdc.connect(owner).mint(signer2.address, ethers.utils.parseEther("100000"));
   await wrappedBitcoin.connect(owner).mint(signer2.address, ethers.utils.parseEther("100000"));
 
-  await popUp.connect(owner).mint(signer2.address, ethers.utils.parseEther("100000"));
-  await rayyan.connect(owner).mint(signer2.address, ethers.utils.parseEther("100000"));
-  await shoaib.connect(owner).mint(signer2.address, ethers.utils.parseEther("100000"));
+  // await popUp.connect(owner).mint(signer2.address, ethers.utils.parseEther("100000"));
+  // await rayyan.connect(owner).mint(signer2.address, ethers.utils.parseEther("100000"));
+  // await shoaib.connect(owner).mint(signer2.address, ethers.utils.parseEther("100000"));
 
   console.log("TETHER_ADDRESS=", `'${tether.address}'`);
   console.log("USDC_ADDRESS=", `'${usdc.address}'`);

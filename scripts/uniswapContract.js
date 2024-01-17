@@ -1,7 +1,7 @@
 // const { ContractFactory, Contract, utils, BigNumber } = require("ethers");
 const { ethers } = require("hardhat");
-
 const WETH9 = require("../Context/WETH9.json");
+
 const artifacts = {
   UniswapV3Factory: require("@uniswap/v3-core/artifacts/contracts/UniswapV3Factory.sol/UniswapV3Factory.json"),
   SwapRouter: require("@uniswap/v3-periphery/artifacts/contracts/SwapRouter.sol/SwapRouter.json"),
@@ -10,6 +10,7 @@ const artifacts = {
   NonfungiblePositionManager: require("@uniswap/v3-periphery/artifacts/contracts/NonfungiblePositionManager.sol/NonfungiblePositionManager.json"),
   WETH9,
 };
+
 const linkLibraries = ({ bytecode, linkReferences }, libraries) => {
   Object.keys(linkReferences).forEach((fileName) => {
     Object.keys(linkReferences[fileName]).forEach((contractName) => {
@@ -27,8 +28,6 @@ const linkLibraries = ({ bytecode, linkReferences }, libraries) => {
       });
     });
   });
-
-  debugger;
   return bytecode;
 };
 
