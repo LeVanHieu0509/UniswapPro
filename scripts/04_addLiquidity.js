@@ -1,14 +1,26 @@
+require("dotenv").config();
 const artifacts = {
   NonfungiblePositionManager: require("@uniswap/v3-periphery/artifacts/contracts/NonfungiblePositionManager.sol/NonfungiblePositionManager.json"),
   Rayyan: require("../artifacts/contracts/Rayyan.sol/Rayyan.json"),
   Shoaib: require("../artifacts/contracts/Shoaib.sol/Shoaib.json"),
+  Usdt: require("../artifacts/contracts/Tether.sol/Tether.json"),
+  Usdc: require("../artifacts/contracts/UsdCoin.sol/UsdCoin.json"),
+
   UniswapV3Pool: require("@uniswap/v3-core/artifacts/contracts/UniswapV3Pool.sol/UniswapV3Pool.json"),
 };
 
 const { Contract } = require("ethers");
 const { Token } = require("@uniswap/sdk-core");
 const { Pool, Position, nearestUsableTick } = require("@uniswap/v3-sdk");
-const { POSITION_MANAGER_ADDRESS, RAYYAN_ADDRESS, SHOAIB_ADDRESS, SHOAIB_RAY } = require("../constants");
+
+const POSITION_MANAGER_ADDRESS = process.env.POSITION_MANAGER_ADDRESS;
+const RAYYAN_ADDRESS = process.env.RAYYAN_ADDRESS;
+const SHOAIB_ADDRESS = process.env.SHOAIB_ADDRESS;
+const SHOAIB_RAY = process.env.SHOAIB_RAY;
+
+const TETHER_ADDRESS = process.env.TETHER_ADDRESS;
+const USDC_ADDRESS = process.env.USDC_ADDRESS;
+const USDT_USDC_500 = process.env.USDT_USDC_500;
 
 async function getPoolData(poolContract) {
   const [tickSpacing, fee, liquidity, slot0] = await Promise.all([
@@ -29,27 +41,29 @@ async function getPoolData(poolContract) {
 
 async function main() {
   const [owner, signer2] = await ethers.getSigners();
-  const provider = waffle.provider;
+  // const provider = waffle.provider;
+  const provider = ethers.provider;
+
   console.log({ provider, owner });
-  //   const usdtContract = new Contract(TETHER_ADDRESS, artifacts.Usdt.abi, provider);
-  //   const usdcContract = new Contract(USDC_ADDRESS, artifacts.Usdc.abi, provider);
+  const usdtContract = new Contract(TETHER_ADDRESS, artifacts.Usdt.abi, provider);
+  const usdcContract = new Contract(USDC_ADDRESS, artifacts.Usdc.abi, provider);
 
-  const shoaibContract = new Contract(SHOAIB_ADDRESS, artifacts.Shoaib.abi, provider);
-  const rayyanContract = new Contract(RAYYAN_ADDRESS, artifacts.Rayyan.abi, provider);
+  // const shoaibContract = new Contract(SHOAIB_ADDRESS, artifacts.Shoaib.abi, provider);
+  // const rayyanContract = new Contract(RAYYAN_ADDRESS, artifacts.Rayyan.abi, provider);
 
-  await shoaibContract.connect(signer2).approve(POSITION_MANAGER_ADDRESS, ethers.utils.parseEther("1000"));
-  await rayyanContract.connect(signer2).approve(POSITION_MANAGER_ADDRESS, ethers.utils.parseEther("1000"));
+  await usdtContract.connect(signer2).approve(POSITION_MANAGER_ADDRESS, ethers.utils.parseEther("1000"));
+  await usdcContract.connect(signer2).approve(POSITION_MANAGER_ADDRESS, ethers.utils.parseEther("1000"));
 
-  const poolContract = new Contract(SHOAIB_RAY, artifacts.UniswapV3Pool.abi, provider);
+  const poolContract = new Contract(USDT_USDC_500, artifacts.UniswapV3Pool.abi, provider);
 
   const poolData = await getPoolData(poolContract);
 
-  const ShoaibToken = new Token(31337, SHOAIB_ADDRESS, 18, "Shoaib", "Tether");
-  const RayyanToken = new Token(31337, RAYYAN_ADDRESS, 18, "Rayyan", "Rayyanoin");
+  const UsdtToken = new Token(31337, TETHER_ADDRESS, 18, "USDT", "Tether");
+  const UsdcToken = new Token(31337, USDC_ADDRESS, 18, "USDC", "UsdCoin");
 
   const pool = new Pool(
-    ShoaibToken,
-    RayyanToken,
+    UsdtToken,
+    UsdcToken,
     poolData.fee,
     poolData.sqrtPriceX96.toString(),
     poolData.liquidity.toString(),
@@ -66,8 +80,8 @@ async function main() {
   const { amount0: amount0Desired, amount1: amount1Desired } = position.mintAmounts;
 
   const params = {
-    token0: SHOAIB_ADDRESS,
-    token1: RAYYAN_ADDRESS,
+    token0: TETHER_ADDRESS,
+    token1: USDC_ADDRESS,
     fee: poolData.fee,
     tickLower: nearestUsableTick(poolData.tick, poolData.tickSpacing) - poolData.tickSpacing * 2,
     tickUpper: nearestUsableTick(poolData.tick, poolData.tickSpacing) + poolData.tickSpacing * 2,

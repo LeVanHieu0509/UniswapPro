@@ -19,6 +19,8 @@ import {
   PopUpTokenAddress,
   RayyanTokenAddress,
   ShoaibTokenAddress,
+  UsdcTokenAddress,
+  UsdtTokenAddress,
 } from "./constant";
 import { getLiquidityData } from "contracts/checkLiquidity";
 import { connectingWithPoolContract } from "contracts/deployPool";
@@ -57,8 +59,8 @@ export const SwapTokenContextProvider = ({ children }) => {
     BooTokenAddress, //Boo token
     LifeTokenAddress, //Life token
     PopUpTokenAddress,
-    RayyanTokenAddress,
-    ShoaibTokenAddress,
+    UsdtTokenAddress,
+    UsdcTokenAddress,
     "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2", //weth token
     "0x6B175474E89094C44Da98b954EedeAC495271d0F", //dai token
     "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48", //usdc token

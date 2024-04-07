@@ -2,7 +2,10 @@ const { Token } = require("@uniswap/sdk-core");
 const UniswapV3Pool = require("@uniswap/v3-core/artifacts/contracts/UniswapV3Pool.sol/UniswapV3Pool.json");
 const { Pool } = require("@uniswap/v3-sdk");
 const { Contract } = require("ethers");
-const { SHOAIB_RAY } = require("../constants");
+
+const USDT_USDC_500 = process.env.USDT_USDC_500;
+const TETHER_ADDRESS = process.env.TETHER_ADDRESS;
+const USDC_ADDRESS = process.env.USDC_ADDRESS;
 
 async function getPoolData(poolContract) {
   const [tickSpacing, fee, liquidity, slot0, factory, token0, token1, maxLiquidityPerTick] = await Promise.all([
@@ -16,8 +19,11 @@ async function getPoolData(poolContract) {
     poolContract.maxLiquidityPerTick(),
   ]);
 
-  const TokenA = new Token(3, token0, 18, "SHO", "Shoaib");
-  const TokenB = new Token(3, token1, 18, "RAY", "Rayyan");
+  // const TokenA = new Token(3, token0, 18, "SHO", "Shoaib");
+  // const TokenB = new Token(3, token1, 18, "RAY", "Rayyan");
+
+  const TokenA = new Token(31337, TETHER_ADDRESS, 18, "USDT", "Tether");
+  const TokenB = new Token(31337, USDC_ADDRESS, 18, "USDC", "UsdCoin");
 
   const poolExample = new Pool(TokenA, TokenB, fee, slot0[0].toString(), liquidity.toString(), slot0[1]);
 
@@ -43,7 +49,7 @@ async function getPoolData(poolContract) {
 
 async function main() {
   const provider = waffle.provider;
-  const poolContract = new Contract(SHOAIB_RAY, UniswapV3Pool.abi, provider);
+  const poolContract = new Contract(USDT_USDC_500, UniswapV3Pool.abi, provider);
   const poolData = await getPoolData(poolContract);
   console.log("poolData", poolData);
 }

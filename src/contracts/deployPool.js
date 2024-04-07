@@ -1,11 +1,12 @@
 import { BigNumber, ethers } from "ethers";
 import Web3Modal from "web3modal";
+import { processCus } from "../../Context/constant";
 
 const bn = require("bignumber.js");
 bn.config({ EXPONENTIAL_AT: 999999, DECIMAL_PLACES: 40 });
 
-const UNISWAP_V3_FACTORY_ADDRESS = "0x15F2ea83eB97ede71d84Bd04fFF29444f6b7cd52";
-const NON_FUNGABLE_MANAGER = "0x057cD3082EfED32d5C907801BF3628B27D88fD80";
+const UNISWAP_V3_FACTORY_ADDRESS = processCus.POOL.FACTORY_ADDRESS;
+const NON_FUNGABLE_MANAGER = processCus.POOL.POSITION_MANAGER_ADDRESS;
 
 const artifacts = {
   UniswapV3Factory: require("@uniswap/v3-core/artifacts/contracts/UniswapV3Factory.sol/UniswapV3Factory.json"),

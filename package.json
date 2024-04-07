@@ -13,15 +13,21 @@
     "url": ""
   },
   "scripts": {
+    "server": "hardhat node",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "compile": "hardhat compile",
-    "deploy": "hardhat run scripts/deploy.js --network",
     "test": "hardhat test",
     "verify": "hardhat verify --network",
     "node": "npx hardhat node",
-    "clean": "npx hardhat clean"
+    "clean": "npx hardhat clean",
+    "deploy": "hardhat run scripts/deploy.js --network",
+    "deployContract": "hardhat run scripts/01_uniswapContract.js --network",
+    "deployToken": "hardhat run scripts/02_deployToken.js --network",
+    "deployPool": "hardhat run scripts/03_deployPool.js --network",
+    "deployLiquidity": "hardhat run scripts/04_addLiquidity.js --network",
+    "deployCheckLiquidity": "hardhat run scripts/05_checkLiquidity.js --network"
   },
   "dependencies": {
     "@heroicons/react": "^2.0.18",
@@ -40,9 +46,11 @@
     "axios": "^1.6.3",
     "bignumber.js": "^9.1.0",
     "crypto-js": "^4.2.0",
+    "dotenv": "^16.4.5",
     "ethereum-waffle": "^3.4.4",
     "ethers": "^5.7.0",
     "file-loader": "^6.2.0",
+    "fs": "^0.0.1-security",
     "hardhat": "^2.11.2",
     "jimp": "^0.22.10",
     "jpeg-js": "^0.4.4",

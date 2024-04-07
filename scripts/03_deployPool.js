@@ -1,12 +1,24 @@
+require("dotenv").config();
+var fs = require("fs");
+
 const artifacts = {
   UniswapV3Factory: require("@uniswap/v3-core/artifacts/contracts/UniswapV3Factory.sol/UniswapV3Factory.json"),
   NonfungiblePositionManager: require("@uniswap/v3-periphery/artifacts/contracts/NonfungiblePositionManager.sol/NonfungiblePositionManager.json"),
 };
 
+const RAYYAN_ADDRESS = process.env.RAYYAN_ADDRESS;
+const SHOAIB_ADDRESS = process.env.SHOAIB_ADDRESS;
+const TETHER_ADDRESS = process.env.TETHER_ADDRESS;
+const USDC_ADDRESS = process.env.USDC_ADDRESS;
+
+const FACTORY_ADDRESS = process.env.FACTORY_ADDRESS;
+const POSITION_MANAGER_ADDRESS = process.env.POSITION_MANAGER_ADDRESS;
+
 const { Contract, BigNumber } = require("ethers");
 const bn = require("bignumber.js");
 const { ethers } = require("hardhat");
-const { POSITION_MANAGER_ADDRESS, FACTORY_ADDRESS, RAYYAN_ADDRESS, SHOAIB_ADDRESS } = require("../constants");
+const { promisify } = require("util");
+
 bn.config({ EXPONENTIAL_AT: 999999, DECIMAL_PLACES: 40 });
 
 const MAINNET_URL = "https://eth-mainnet.g.alchemy.com/v2/ikWCa20Rp63UZiGfHtwXzfd6UT5bFA43";
@@ -41,11 +53,24 @@ async function deployPool(token0, token1, fee, price) {
 }
 
 async function main() {
-  // const usdtUsdc500 = await deployPool(TETHER_ADDRESS, USDC_ADDRESS, 500, encodePriceSqrt(1, 1));
-  // console.log("USDT_USDC_500=", `'${usdtUsdc500}'`);
+  const usdtUsdc500 = await deployPool(TETHER_ADDRESS, USDC_ADDRESS, 500, encodePriceSqrt(1, 1));
+  console.log("USDT_USDC_500=", `'${usdtUsdc500}'`);
 
-  const shoRay = await deployPool(SHOAIB_ADDRESS, RAYYAN_ADDRESS, 500, encodePriceSqrt(1, 1));
-  console.log("SHOAIB_RAY=", `'${shoRay}'`);
+  // const shoRay = await deployPool(SHOAIB_ADDRESS, RAYYAN_ADDRESS, 500, encodePriceSqrt(1, 1));
+  // console.log("SHOAIB_RAY=", `'${shoRay}'`);
+
+  let address = [`USDT_USDC_500=${usdtUsdc500}`];
+  const data = "\n" + address.join("\n");
+  const writeFile = promisify(fs.appendFile);
+  const filePath = ".env";
+  return writeFile(filePath, data)
+    .then(() => {
+      console.log("Addressed recorded");
+    })
+    .catch((e) => {
+      console.log("error logging address", e);
+      throw e;
+    });
 }
 
 /*
