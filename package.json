@@ -20,6 +20,9 @@
     "compile": "hardhat compile",
     "test": "hardhat test",
     "verify": "hardhat verify --network",
+    "verifyCPAMM": "npx hardhat verify --constructor-args arguments.js 0x68a35bE2D763B9F4F2EA900c9731DF6BbDFd0a21 --network bsctest",
+    "verifyToken0": "npx hardhat verify --network bsctest --contract contracts/token0.sol:Token0 0x8A114E450cAa448aCD473104e4d7F8467A692aAa",
+    "verifyToken1": "npx hardhat verify --network bsctest --contract contracts/token1.sol:Token1 0xe7B757f0c3636223BD4e61F667405418e6d8a1dc",
     "node": "npx hardhat node",
     "clean": "npx hardhat clean",
     "deploy": "hardhat run scripts/deploy.js --network",
@@ -27,12 +30,15 @@
     "deployToken": "hardhat run scripts/02_deployToken.js --network",
     "deployPool": "hardhat run scripts/03_deployPool.js --network",
     "deployLiquidity": "hardhat run scripts/04_addLiquidity.js --network",
-    "deployCheckLiquidity": "hardhat run scripts/05_checkLiquidity.js --network"
+    "deployCheckLiquidity": "hardhat run scripts/05_checkLiquidity.js --network",
+    "deployDefiToken": "hardhat run scripts/defi/deploy.js --network"
   },
   "dependencies": {
     "@heroicons/react": "^2.0.18",
     "@material-tailwind/react": "^2.1.2",
+    "@nomiclabs/buidler": "^1.4.8",
     "@nomiclabs/hardhat-ethers": "^2.1.1",
+    "@nomiclabs/hardhat-etherscan": "^3.1.8",
     "@nomiclabs/hardhat-waffle": "^2.0.3",
     "@openzeppelin/contracts": "^4.7.3",
     "@reduxjs/toolkit": "^1.9.0",
