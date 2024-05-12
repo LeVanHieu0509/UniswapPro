@@ -1,6 +1,21 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 pragma solidity >=0.7.6 <0.9.0;
 
+//Inflation attack
+
+/* 
+    - Là trường hợp add liquidity mà người dùng gửi nhiều token 0 và token 1 làm lạm phát token share
+    - Những người add liquidity sau sẽ không nhận được token nào cả, or nhận được ít.
+    - Khi gửi trực tiếp vào AMM thì balanceOf nó sẽ work không đúng, thì khi gửi trực tiếp thì giá trị trong pool sẽ có rất nhiều token => bị lạm phát.
+    - Khi add liquidity vào thì ông số 2 bị 0 share do token 0 bị lạm phát.
+    - Khi đó thì ông có 1 share có thể rút toàn bộ thanh khoản của pool này => vì 1 share = all tiền trong liquidity.
+
+    //user 1 add liquidity 1 - 1 ==> share 1
+    //user 1 send token 1 and token 0 --> AMM. 100$ x 10^18 -> send rất là nhiều
+    //user 2 add liquidity 100 x 10^18 --> AMM ---> 0 share -> ông này sẽ nhận được 0 share
+    //user 1 remove liquidity --> 200 x 10^18 --> by remove 1 share
+*/
+
 contract CPAMM {
     IERC20 public immutable token0;
     IERC20 public immutable token1;
@@ -26,6 +41,7 @@ contract CPAMM {
         totalSupply -= _amount;
     }
 
+    // tránh được trường hợp Inflation attack
     function _update(uint256 _reserve0, uint256 _reserve1) private {
         reserve0 = _reserve0;
         reserve1 = _reserve1;
@@ -114,8 +130,8 @@ contract CPAMM {
             shares = _min((_amount0 + totalSupply) / reserve0, (_amount1 + totalSupply) / reserve1);
         }
 
+        // Tránh được trường hợp bị Inflation attack
         require(shares > 0, "shares = 0");
-
         _mint((msg.sender), shares);
 
         _update(token0.balanceOf(address(this)), token1.balanceOf(address(this)));
