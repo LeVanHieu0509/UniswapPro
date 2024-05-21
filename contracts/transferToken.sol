@@ -18,6 +18,8 @@ import "hardhat/console.sol";
 //     event Approval(address indexed owner, address indexed spender, uint256 value);
 // }
 
+// ERC20 trở nên hữu ích cho những thứ như phương tiện trao đổi tiền tệ , quyền biểu quyết , đặt cược , v.v.
+// loại tiền tệ nội tệ trong một trò chơi giả định.
 contract PEPEATSCHOOL is ERC20, Ownable {
     mapping(address => uint256) balances;
     mapping(address => mapping(address => uint256)) allowed;

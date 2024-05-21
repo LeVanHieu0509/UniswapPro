@@ -1,6 +1,6 @@
 async function main() {
   const [owner, signer2] = await ethers.getSigners();
-
+  console.log({ owner });
   const PopUp = await ethers.getContractFactory("PopUp", owner);
   const popUp = await PopUp.deploy();
 

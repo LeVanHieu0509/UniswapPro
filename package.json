@@ -31,7 +31,8 @@
     "deployPool": "hardhat run scripts/03_deployPool.js --network",
     "deployLiquidity": "hardhat run scripts/04_addLiquidity.js --network",
     "deployCheckLiquidity": "hardhat run scripts/05_checkLiquidity.js --network",
-    "deployDefiToken": "hardhat run scripts/defi/deploy.js --network"
+    "deployDefiToken": "hardhat run scripts/defi/deploy.js --network",
+    "deployMarketNFT": "hardhat run scripts/NFT/NFTMarketplace.js --network"
   },
   "dependencies": {
     "@heroicons/react": "^2.0.18",

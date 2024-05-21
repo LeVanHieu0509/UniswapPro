@@ -1,4 +1,5 @@
 async function main() {
+  console.log({ ethers: ethers.getSigners() });
   const [owner, signer2] = await ethers.getSigners();
   console.log({ owner, signer2 });
   const PEPEATSCHOOL = await ethers.getContractFactory("PEPEATSCHOOL", owner);
